@@ -15,10 +15,13 @@ class Node{
     public int getSize(){
         return connectedNodes.size();
     }
-    public ArrayList getConnectedNodes(){
+    public ArrayList<Node> getConnectedNodes(){
         return connectedNodes;
     }
     
+    public ArrayList<Integer> getDistanza(){
+        return distanza;
+    }
     
     
     public void setNodes(Node n, int d){
@@ -26,6 +29,9 @@ class Node{
         connectedNodes.add(n);
     }
     
+    public String getValue(){
+        return value;
+    }
     
     public String toString(){
         String txt =  "node : "+value;
@@ -41,5 +47,9 @@ class Node{
         txt += "\n\n----------\n\n";
         
         return txt;
+    }
+    
+    public boolean equals(Node n){
+        return value.equals(n.value);
     }
 }
