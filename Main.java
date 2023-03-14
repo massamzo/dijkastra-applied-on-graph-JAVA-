@@ -11,37 +11,15 @@ public class Main
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 		
-		String valori[] = {"A", "B","C","D","E","F","G","H","I", "J","K"};
+		String valori[] = {"A", "B","C","D","E"};
 		Graph graph = new Graph(valori.length);
 		
+		String start = "B";
+		String end = "E";
+	
 		graph.createNodesConnection(valori);
-		
-		/*for(int i=0; i < valori.length; i++){
-		    
-		    Node nodo = new Node(valori[i]);
-		    
-		    // connect this node to others in a random way
-		    int connectedNodes = 0;
-		    int latest = -1;
-		    while(connectedNodes < 2){
-		        int index = (int)Math.floor(Math.random() * valori.length);
-		        if(index != i && index != latest){
-		            latest = index;
-		            
-		            // create node
-		            Node n = new Node(valori[index]);
-		            int dis = (int)Math.floor(Math.random() * 100 + 1);
-		            nodo.setNodes(n, dis);
-		            connectedNodes++;
-		        }
-		        
-		    }
-		    
-		    graph.setNode(nodo);
-		}*/
-		
-		int random_int = (int)Math.floor(Math.random() * 10 + 1);
-		
 		System.out.println(graph.toString());
+	  
+	    graph.shortestPath(start,end);
 	}
 }
