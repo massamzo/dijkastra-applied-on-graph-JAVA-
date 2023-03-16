@@ -37,7 +37,7 @@ class Graph{
         return txt;
     }
     
-    
+    // aggiustare ciclo infinito
     public void createNodesConnection(String[] valori){
         
         // fill the nodes array
@@ -282,12 +282,15 @@ class Graph{
         int seen = 0;
         while(unvisitedIsNotEmpty()){
             int minValueNode = shortestDistance(seen);
-            System.out.println(unvisited[minValueNode].getValue());
-            visitNode(unvisited[minValueNode], minValueNode);
-            
-            if(seen == 0){
-                seen = 1;
+            if(unvisited[minValueNode] != null){
+                System.out.println(unvisited[minValueNode].getValue());
+                visitNode(unvisited[minValueNode], minValueNode);
+                
+                if(seen == 0){
+                    seen = 1;
+                }
             }
+            
         }
     }
     

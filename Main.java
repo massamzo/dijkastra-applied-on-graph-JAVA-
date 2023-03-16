@@ -11,7 +11,7 @@ public class Main
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 		
-		String valori[] = {"A", "B","C","D","E"};
+		String valori[] = {"A", "B","C","D","E","F","G","H","I"};
 		Graph graph = new Graph(valori.length);
 		
 		String start = "E";
