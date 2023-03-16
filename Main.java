@@ -14,12 +14,12 @@ public class Main
 		String valori[] = {"A", "B","C","D","E"};
 		Graph graph = new Graph(valori.length);
 		
-		String start = "B";
-		String end = "E";
+		String start = "E";
+		String end = "A";
 	
 		graph.createNodesConnection(valori);
 		System.out.println(graph.toString());
 	  
-	    graph.shortestPath(start,end);
+	    System.out.println(graph.shortestPath(start,end));
 	}
 }

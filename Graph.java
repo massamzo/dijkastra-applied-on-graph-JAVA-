@@ -6,6 +6,7 @@ class Graph{
     private Node unvisited[];
     private Node visited[];
     private Node previous[];
+    private Node copyNodes[];
     private Double distances[];
     
     public Graph(int length){
@@ -98,6 +99,9 @@ class Graph{
         
         copyArray();
         
+        visited = new Node[unvisited.length];
+        previous = new Node[unvisited.length];
+        copyNodes = nodes.clone();
         // define the distances
         distances[0] = 0.0;
         for(int i=1; i < distances.length; i++){
@@ -116,9 +120,15 @@ class Graph{
                     Node temp = unvisited[0];
                     unvisited[0] = unvisited[i];
                     unvisited[i] = temp;
+                    
+                    Node n = copyNodes[0];
+                    copyNodes[0] = copyNodes[i];
+                    copyNodes[i] = n;
+                    
                 }
             }
         }
+        
         
         
     }
@@ -154,13 +164,13 @@ class Graph{
     private void updateDistance(Double d, String val, Node node){
         int ind = 0;
         for(int i=0; i < unvisited.length; i++){
-            if(unvisited[i] != null){
-                System.out.println(unvisited[i].getValue());
+           if(unvisited[i] != null){
                 if(unvisited[i].getValue() == val){
                     ind = i;
                     break;
-                } 
-            }
+                }
+           }
+            
         }
         
         if(d < distances[ind]){
@@ -179,12 +189,13 @@ class Graph{
         }
         
         for(int i=0; i < unvisited.length; i++){
-           if(unvisited[i] != null){
+            
+            if(unvisited[i] != null){
                 if(unvisited[i].equals(n)){
                     unvisited[i] = null;
                     break;
                 }
-           }
+            }
         }
     }
     
@@ -203,11 +214,55 @@ class Graph{
                 //check if the distance is smaller than the value, update previous node as well
                 
                 
-                updateDistance(d, n.getValue(), n);
+                updateDistance(d, n.getValue(), node);
                 
                 // sign this node as visited and remove from visited
-                addIntoVisited(n);
+                
             }
+        }
+        addIntoVisited(node);
+    }
+    
+    
+    private void showUnvisited(){
+        System.out.println("\n----- UNVISITED ----\n");
+        for(int i=0; i < unvisited.length; i++){
+            if(unvisited[i] != null){
+                System.out.println(unvisited[i].getValue());
+            }else{
+                System.out.println("null");
+            }
+        }
+    }
+    
+    private void showVisited(){
+        System.out.println("\n----- VISITED ----\n");
+        for(int i=0; i < visited.length; i++){
+            if(visited[i] != null){
+                System.out.println(visited[i].getValue());
+            }else{
+                System.out.println("null");
+            }
+        }
+    }
+    
+    
+    private void showPrevious(){
+        System.out.println("\n----- PREVIOUS ----\n");
+        for(int i=0; i < previous.length; i++){
+            if(previous[i] != null){
+                System.out.println(previous[i].getValue());
+            }else{
+                System.out.println("null");
+            }
+        }
+    }
+    
+    
+    private void showDistances(){
+        System.out.println("\n----- DISTANCES ----\n");
+        for(int i=0; i < distances.length; i++){
+            System.out.println(distances[i]);
         }
     }
     
@@ -223,8 +278,7 @@ class Graph{
     
     private void distanceCreator(String start, String end){
         
-        visited = new Node[unvisited.length];
-        previous = new Node[unvisited.length];
+      
         int seen = 0;
         while(unvisitedIsNotEmpty()){
             int minValueNode = shortestDistance(seen);
@@ -237,26 +291,52 @@ class Graph{
         }
     }
     
-    public void shortestPath(String start, String end){
+    // using copynodes (clone of unvisited) because unvisited at the end will contain null values only
+    private int findNewEnd(String end){
+      
+        for(int i=0; i < copyNodes.length; i++){
+            if(copyNodes[i] != null){
+               if(copyNodes[i].getValue().equals(end)){
+                   return i;
+               }
+            }else{
+                System.out.println("null");
+            }
+        }
+        
+        return -1;
+    }
+    
+    private String findPath(String start, String end){
+        
+        if(start.equals(end)){
+            return end;
+        }
+        
+        String newEnd = previous[findNewEnd(end)].getValue();
+        
+        return findPath(start, newEnd)+" ---> "+end;
+    }
+    
+    
+    
+    public String shortestPath(String start, String end){
         arrangeOrder(start);
+        
+        showUnvisited();
+        showVisited();
+        showDistances();
+        showPrevious();
+        
         distanceCreator(start, end);
         
+        showUnvisited();
+        showVisited();
+        showDistances();
+        showPrevious();
         
-        /*System.out.println("\n\n----------\n\n");
-        for(int i=0; i < visited.length; i++){
-            System.out.println(visited[i].getValue() + ", ");
-            
-        }
-        System.out.println("\n\n----------\n\n");
-        for(int i=0; i < distances.length; i++){
-            System.out.println(distances[i] + ", ");
-            
-        }
-        System.out.println("\n\n----------\n\n");
-        for(int i=0; i < previous.length; i++){
-            System.out.println(previous[i].getValue() + ", ");
-            
-        }*/
+        
+        return findPath(start, end);
     }
     
 }
